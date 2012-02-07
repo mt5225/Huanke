@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge
+  xmlns:android="http://schemas.android.com/apk/res/android">
+  <LinearLayout
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:id="@+id/TitleGroup">
+    <LinearLayout android:id="@+id/TitleBar"
+      style="@style/ViewTitle"
+      android:orientation="horizontal">
+      <TextView
+        android:id="@+id/TitleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        android:lines="1"
+        android:ellipsize="end"
+        android:textAppearance="@style/ViewTitleText"/>
+      <TextView
+        android:id="@+id/TitleRight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:lines="1"
+        android:ellipsize="end"
+        android:gravity="right"
+        android:textAppearance="@style/ViewTitleSubText"/>
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/Content"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/TitleText"
+        android:layout_marginBottom="2dip" >
+
+    </FrameLayout>
+  </LinearLayout>
+</merge>
