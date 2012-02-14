@@ -31,7 +31,7 @@ public abstract class RootActivity extends ActivityGroup implements
 		OnClickListener {
 	private static final String LOG_TAG = RootActivity.class.getName();	
 	private ProgressBar progressIndicator;
-	public static String customer_id = "24";  //TODO login to get id
+	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

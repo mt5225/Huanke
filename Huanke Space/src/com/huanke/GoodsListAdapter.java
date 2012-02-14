@@ -44,15 +44,9 @@ public class GoodsListAdapter extends ArrayAdapter<ProductImage> {
 		public void handleMessage(Message msg) {
 			if (msg.what >= 0) {
 				if (goodList != null) {
-					if (goodList.size() > 0) {
-						for (ProductImage s : goodList) {
-							add(s);
-						}
-						// add(null);
-					} else {
-						Log.e(LOG_TAG, "无法取得数据");
+					for (ProductImage s : goodList) {
+						add(s);
 					}
-
 				}
 			} else {
 				Toast.makeText(
@@ -68,31 +62,23 @@ public class GoodsListAdapter extends ArrayAdapter<ProductImage> {
 		}
 	};
 
-	public void getGoodList(int status) {
+	public void getGoodList() {
 		if (rootActivity != null) {
 			rootActivity.startIndeterminateProgressIndicator();
 		}
-		if (status == 0) {
-			new Thread(new Runnable() {
-				@Override
-				public void run() {
-					Log.d(LOG_TAG, "clear cache and reload good list");
-					// HuankeSpaceActivity.clearStoryCache();
-					fetchGoods();
-					if (goodList != null) {
-						handler.sendEmptyMessage(0);
-					} else {
-						handler.sendEmptyMessage(-1);
-					}
+
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				Log.d(LOG_TAG, "load good list");
+				fetchGoods();
+				if (goodList != null) {
+					handler.sendEmptyMessage(0);
+				} else {
+					handler.sendEmptyMessage(-1);
 				}
-			}).start();
-		} else if (status == 1) {
-			Log.d(LOG_TAG, "use cached stories");
-			// moreStories = LvyeActivity.storyCache;
-			handler.sendEmptyMessage(0);
-		} else {
-			// handler.sendEmptyMessage(0);
-		}
+			}  
+		}).start();
 	}
 
 	@Override
@@ -122,7 +108,7 @@ public class GoodsListAdapter extends ArrayAdapter<ProductImage> {
 					.findViewById(R.id.NewsItemIcon);
 			final ImageView image = (ImageView) convertView
 					.findViewById(R.id.NewsItemImage);
-			
+
 			String imageUrl = good.getUrl();
 			if (imageUrl != null) {
 				Drawable cachedImage = imageLoader.loadImage(imageUrl,
@@ -146,7 +132,7 @@ public class GoodsListAdapter extends ArrayAdapter<ProductImage> {
 				soapClient);
 		try {
 			Customer customer = customerService
-					.getCustomerDetail(RootActivity.customer_id);
+					.getCustomerDetail(HuankeApplication.customer_id);
 			goodList = productImageService.listProductImage(customer
 					.getPrefix());
 
@@ -155,39 +141,41 @@ public class GoodsListAdapter extends ArrayAdapter<ProductImage> {
 		}
 		soapClient.endSession();
 	}
-	
+
 	/**
 	 * private class implements load image listener
+	 * 
 	 * @author qjiang
-	 *
+	 * 
 	 */
-	private class ImageLoadListener implements ImageThreadLoader.ImageLoadedListener {
+	private class ImageLoadListener implements
+			ImageThreadLoader.ImageLoadedListener {
 
-	    private int position;
-	    private ListView parent;
+		private int position;
+		private ListView parent;
 
-	    public ImageLoadListener(int position, ListView parent) {
-	      this.position = position;
-	      this.parent = parent;
-	    }
+		public ImageLoadListener(int position, ListView parent) {
+			this.position = position;
+			this.parent = parent;
+		}
 
-	    public void imageLoaded(Drawable imageBitmap) {
-	      View itemView = parent.getChildAt(position -
-	          parent.getFirstVisiblePosition());
-	      if (itemView == null) {
-	        Log.w(LOG_TAG, "Could not find list item at position " +
-	            position);
-	        return;
-	      }
-	      ImageView img = (ImageView)
-	          itemView.findViewById(R.id.NewsItemImage);
-	      if (img == null) {
-	        Log.w(LOG_TAG, "Could not find image for list item at " +
-	            "position " + position);
-	        return;
-	      }
-	      Log.d(LOG_TAG, "Drawing image at position " + position);
-	      img.setImageDrawable(imageBitmap);
-	    }
-	  }
+		public void imageLoaded(Drawable imageBitmap) {
+			View itemView = parent.getChildAt(position
+					- parent.getFirstVisiblePosition());
+			if (itemView == null) {
+				Log.w(LOG_TAG, "Could not find list item at position "
+						+ position);
+				return;
+			}
+			ImageView img = (ImageView) itemView
+					.findViewById(R.id.NewsItemImage);
+			if (img == null) {
+				Log.w(LOG_TAG, "Could not find image for list item at "
+						+ "position " + position);
+				return;
+			}
+			Log.d(LOG_TAG, "Drawing image at position " + position);
+			img.setImageDrawable(imageBitmap);
+		}
+	}
 }

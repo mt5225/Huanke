@@ -27,14 +27,11 @@
         android:gravity="right"
         android:textAppearance="@style/ViewTitleSubText"/>
     </LinearLayout>
-
     <FrameLayout
-        android:id="@+id/Content"
-        android:layout_width="fill_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/TitleText"
-        android:layout_marginBottom="2dip" >
-
+      android:id="@+id/Content"
+      android:layout_width="fill_parent"
+      android:layout_height="fill_parent"
+      android:layout_marginBottom="5dip">
     </FrameLayout>
   </LinearLayout>
 </merge>

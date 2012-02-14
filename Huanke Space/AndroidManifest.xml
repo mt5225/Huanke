@@ -26,6 +26,8 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        
+        <activity android:name="UploadImageActivity" />
     </application>
     
     <uses-permission android:name="android.permission.INTERNET" />

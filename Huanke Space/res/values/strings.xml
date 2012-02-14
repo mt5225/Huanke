@@ -5,6 +5,8 @@
   <string name="msg_load_more">Load more stories...</string>
 
   <string name="msg_refresh">Refresh</string>
+  <string name="upload_image">Upload</string>
+  <string name="upload_description_hint">Description</string>
 
   <string name="msg_main_logo">Home</string>
   <string name="msg_main_section_news">News</string>

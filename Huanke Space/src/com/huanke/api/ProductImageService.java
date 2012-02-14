@@ -7,17 +7,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Vector;
-
 import org.ksoap2.serialization.SoapObject;
-
 import android.util.Log;
-
 import com.huanke.api.soap.Constants;
-import com.huanke.api.soap.ImageHelper;
 import com.huanke.api.soap.KeyImage;
 import com.huanke.api.soap.KeyValue;
 import com.huanke.api.soap.MessageParser;
 import com.huanke.api.soap.SoapClient;
+import com.huanke.utils.Base64;
 
 public class ProductImageService {
 
@@ -33,7 +30,8 @@ public class ProductImageService {
 	 * 
 	 * @throws IOException
 	 */
-	public ProductImage uploadImageToProduct(String product_id, InputStream io) {
+	public ProductImage uploadImageToProduct(String product_id,
+			String filename, String desc) {
 		try {
 			soapClient.clearObjMap();
 			soapClient.addMapping(new KeyValue());
@@ -41,7 +39,7 @@ public class ProductImageService {
 			Object soapResp;
 			soapResp = soapClient.call(Constants.METHOD_CALL,
 					ResourcePath.ProductAttributeMediaCreate.getPath(),
-					uploadImageHelper(product_id, io));
+					uploadImageHelper(product_id, filename, desc));
 			String file = soapResp.toString();
 			ArrayList<ProductImage> imageList = listProductImage(product_id);
 			for (ProductImage pimg : imageList) {
@@ -56,7 +54,7 @@ public class ProductImageService {
 	}
 
 	private Map<String, Object> uploadImageHelper(String product_id,
-			InputStream io) throws IOException {
+			String filename, String desc) throws IOException {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("sessionId", this.soapClient.getSessionID());
 		Vector<Object> args = new Vector<Object>();
@@ -67,12 +65,12 @@ public class ProductImageService {
 		KeyValue name = new KeyValue("name", "v2");
 		KeyValue mime = new KeyValue("mime", "image/jpeg");
 		KeyValue content = new KeyValue("content",
-				ImageHelper.imageToBase64(io));
+				Base64.encodeFromFile(filename));
 		image.addProperty("item", name);
 		image.addProperty("item", content);
 		image.addProperty("item", mime);
 		so.addProperty("item", ki);
-		KeyValue label = new KeyValue("label", "v2");
+		KeyValue label = new KeyValue("label", desc);
 		so.addProperty("item", label);
 		KeyValue exclude = new KeyValue("exclude", "0");
 		so.addProperty("item", exclude);
