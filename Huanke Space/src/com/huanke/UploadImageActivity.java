@@ -1,5 +1,7 @@
 package com.huanke;
 
+import java.util.UUID;
+
 import com.huanke.api.Customer;
 import com.huanke.api.CustomerService;
 import com.huanke.api.ProductImageService;
@@ -7,7 +9,6 @@ import com.huanke.api.soap.SoapClient;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -31,7 +33,10 @@ public class UploadImageActivity extends RootActivity {
 		Log.d(LOG_TAG, "draw the upload image UI");
 		super.onCreate(savedInstanceState);
 		ViewGroup container = (ViewGroup) findViewById(R.id.TitleContent);
-		ViewGroup.inflate(this, R.layout.upload_image, container);
+		ViewGroup.inflate(this, R.layout.upload_image, container);  //load upload_image UI
+		ImageButton bi = (ImageButton) findViewById(R.id.MainSearchButton);
+		bi.setVisibility(View.INVISIBLE);
+		
 
 		Bundle extras = getIntent().getExtras();
 		if (extras == null) {
@@ -74,7 +79,7 @@ public class UploadImageActivity extends RootActivity {
 							.getCustomerDetail(HuankeApplication.customer_id);
 
 					productImageService.uploadImageToProduct(
-							customer.getPrefix(), image_path, "_" + titleText.getText());
+							customer.getPrefix(), image_path, UUID.randomUUID() + "_" + titleText.getText());
 					soapClient.endSession();
 					
 				} catch (Exception e) {
@@ -84,6 +89,9 @@ public class UploadImageActivity extends RootActivity {
 			}
 		};
 		checkUpdate.start();
-
+	}
+	
+	public void onRefresh(View v) {
+		Log.d(LOG_TAG, "do nothing");
 	}
 }

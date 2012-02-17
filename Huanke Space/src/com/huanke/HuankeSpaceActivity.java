@@ -1,6 +1,9 @@
 package com.huanke;
 
+import java.util.ArrayList;
+
 import com.huanke.RootActivity;
+import com.huanke.api.ProductImage;
 import com.huanke.utils.DisplayUtils;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -15,6 +18,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -31,6 +35,7 @@ public class HuankeSpaceActivity extends RootActivity implements
 	private ListView listView;
 	private GoodsListAdapter goodListAdapter;
 	protected MenuDialog menuDialog;
+	public static ArrayList<ProductImage> piCache = new ArrayList<ProductImage>();
 
 	/** Called when the activity is first created. */
 	@Override
@@ -103,7 +108,6 @@ public class HuankeSpaceActivity extends RootActivity implements
 									intent.addCategory(Intent.CATEGORY_HOME);
 									intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 									startActivity(intent);
-									// activity.finish();
 								}
 							})
 					.setNegativeButton("No",
@@ -184,5 +188,11 @@ public class HuankeSpaceActivity extends RootActivity implements
 	            .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
 	    cursor.moveToFirst();
 	    return cursor.getString(column_index);
+	}
+	
+	@Override
+	public void onStart() {
+		super.onStart();
+		Log.d(LOG_TAG, "on become visible");
 	}
 }
