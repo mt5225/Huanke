@@ -52,7 +52,15 @@ public class HuankeSpaceActivity extends RootActivity implements
 		// TODO move to a layout
 		View titleBar = findViewById(R.id.TitleBar);
 		TextView titleText = (TextView) findViewById(R.id.TitleText);
-		titleText.setText("My Goods");
+		
+		//set title
+		if(GoodsListAdapter.current_customer_id.equals(HuankeApplication.customer_id))
+		{ 
+			titleText.setText("My Goods List");
+		} else {
+			String customer_name = getIntent().getStringExtra("CUSTOMER_NAME");
+			titleText.setText(customer_name + " 's Goods List");
+		}
 		titleBar.setBackgroundDrawable(getResources().getDrawable(
 				R.drawable.top_stories_title_background));
 		titleBar.getLayoutParams().height = DisplayUtils.convertToDIP(this, 20);
@@ -156,13 +164,18 @@ public class HuankeSpaceActivity extends RootActivity implements
 	/**
 	 * on upload new image
 	 */
-	// Show the Forum Selector
 	public void onUploadImage(View v) {
-		Log.d(LOG_TAG, "image button clicked");
+		Log.d(LOG_TAG, "upload image button clicked");
 		startActivityForResult(new Intent(Intent.ACTION_PICK,
 				android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI),
 				SELECT_IMAGE);  //TODO choose existing image or start a camera
 
+	}
+	
+	public void onListCustomer(View v) { 
+		Log.d(LOG_TAG, "list customer clicked");
+		Intent i = new Intent(this, CustomerListActivity.class);
+		startActivity(i);
 	}
 	
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {

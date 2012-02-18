@@ -34,7 +34,7 @@ public class UploadImageActivity extends RootActivity {
 		super.onCreate(savedInstanceState);
 		ViewGroup container = (ViewGroup) findViewById(R.id.TitleContent);
 		ViewGroup.inflate(this, R.layout.upload_image, container);  //load upload_image UI
-		ImageButton bi = (ImageButton) findViewById(R.id.MainSearchButton);
+		ImageButton bi = (ImageButton) findViewById(R.id.MainSearchButton); //disable upload button
 		bi.setVisibility(View.INVISIBLE);
 		
 

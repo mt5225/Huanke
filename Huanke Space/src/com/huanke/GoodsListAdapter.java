@@ -23,12 +23,19 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+/**
+ * list all goods by current_customer_id
+ * 
+ * @author qjiang
+ * 
+ */
 public class GoodsListAdapter extends ArrayAdapter<ProductImage> {
 	private static final String LOG_TAG = GoodsListAdapter.class.getName();
 	private final LayoutInflater inflater;
 	private RootActivity rootActivity = null;
 	private List<ProductImage> goodList = null;
 	private final ImageThreadLoader imageLoader;
+	public static String current_customer_id = "24";
 
 	public GoodsListAdapter(Context context) {
 		super(context, R.layout.news_item);
@@ -77,7 +84,7 @@ public class GoodsListAdapter extends ArrayAdapter<ProductImage> {
 				} else {
 					handler.sendEmptyMessage(-1);
 				}
-			}  
+			}
 		}).start();
 	}
 
@@ -125,14 +132,14 @@ public class GoodsListAdapter extends ArrayAdapter<ProductImage> {
 	}
 
 	private void fetchGoods() {
-		Log.d(LOG_TAG, "fetch Goods");
+		Log.d(LOG_TAG, "fetch Goods from customer id = " + current_customer_id);
 		SoapClient soapClient = new SoapClient();
 		CustomerService customerService = new CustomerService(soapClient);
 		ProductImageService productImageService = new ProductImageService(
 				soapClient);
 		try {
 			Customer customer = customerService
-					.getCustomerDetail(HuankeApplication.customer_id);
+					.getCustomerDetail(current_customer_id);
 			goodList = productImageService.listProductImage(customer
 					.getPrefix());
 
