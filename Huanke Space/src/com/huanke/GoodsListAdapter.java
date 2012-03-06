@@ -35,7 +35,7 @@ public class GoodsListAdapter extends ArrayAdapter<ProductImage> {
 	private RootActivity rootActivity = null;
 	private List<ProductImage> goodList = null;
 	private final ImageThreadLoader imageLoader;
-	public static String current_customer_id = "24";
+	public static String current_customer_id = "1";  //list goods given a customer id
 
 	public GoodsListAdapter(Context context) {
 		super(context, R.layout.news_item);
